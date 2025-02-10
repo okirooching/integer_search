@@ -134,6 +134,6 @@ class SetSearch:
         query_input: int = self.decode_user_input()["query_input"]
 
         if SetSearch.data_store and query_input in SetSearch.data_store:
-            return "STRING EXISTS\n READ_ON_QUERY=False"
+            return "STRING EXISTS\n READ_ON_QUERY=False\n"
         else:
-            return "STRING NOT FOUND\n READ_ON_QUERY=False"
+            return "STRING NOT FOUND\n READ_ON_QUERY=False\n"
