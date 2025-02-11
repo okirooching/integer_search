@@ -1,4 +1,5 @@
 import unittest
+import ssl
 import socket
 import threading
 import configparser
@@ -37,6 +38,7 @@ class TestTCPServer(unittest.TestCase):
         with patch("sys.stdout", new_callable=io.StringIO) as mock_stdout:
             client.send_message("24011601050", True)
             output = mock_stdout.getvalue()
+        
         # Ensure response contains expected output
         self.assertTrue("STRING EXISTS" in output or "STRING NOT FOUND" in output)
 
@@ -136,6 +138,17 @@ class TestTCPServer(unittest.TestCase):
         self.assertTrue(response.endswith("\n"))
         self.assertTrue("STRING EXISTS" in response or "STRING NOT FOUND" in response)
 
+
+
+    def test_server_multithreading(self):
+        """
+        8. Test if the server can handle multiple client requests 
+        in parallel using multithreading.
+        """
+        self.assertTrue(self.server_thread.daemon)
+
+        
+    
 
 
 

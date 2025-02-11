@@ -3,8 +3,20 @@ import ssl
 import threading
 import configparser
 import time
+import logging
+from datetime import datetime
 from typing import Optional, Tuple, Dict
 from big_int_search import SetSearch
+
+
+# Configure logging
+logging.basicConfig(
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    level=logging.DEBUG  # Enable DEBUG level logs
+)
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+
+
 
 
 class TCPServer:
@@ -81,13 +93,13 @@ class TCPServer:
                 context: ssl.SSLContext = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
                 context.load_cert_chain(certfile=self.ssl_certfile, keyfile=self.ssl_keyfile)
                 client_socket = context.wrap_socket(client_socket, server_side=True)
-                print("DEBUG - SSL connection established")
+                logging.debug(" SSL connection established")
             except ssl.SSLError as e:
                 print(f"SSL error: {e}")
                 client_socket.close()
                 return
         else:
-            print("DEBUG - SSL connection disabled")
+            logging.debug(" SSL connection disabled")
 
         # Handle the client request
         try:
@@ -116,16 +128,17 @@ class TCPServer:
 
                 execution_time = (time.time() - start_time) * 1000
                 print(f"DEBUG - Execution time: {execution_time:.2f}ms")
+                logging.info("This is a log message.")
 
         except TypeError as e:
             response = "Please switch to READ_ON_QUERY=True, no data found in memory"
             client_socket.sendall(response.encode())
-            print(f"Error with client {client_address}: {e}")
+            logging.debug(f"Error with client {client_address}: {e}")
 
         except ValueError as e:
             response = "The search input must be a number or integer"
             client_socket.sendall(response.encode())
-            print(f"Error with client {client_address}: {e}")
+            logging.debug(f"Error with client {client_address}: {e}")
 
         finally:
             print(f"Closing connection to {client_address}\n")
