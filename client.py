@@ -91,7 +91,7 @@ if __name__ == "__main__":
     This block initializes the client and sends a sample message to the server.
     The `reread_flag` is set to False by default, but can be modified as needed.
     """
-    reread_flag: bool = True
+    reread_flag: bool = False
 
     client: Client = Client()
     client.send_message("11011101630", reread_flag)
